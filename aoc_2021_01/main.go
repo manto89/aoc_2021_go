@@ -16,22 +16,24 @@ func getMeasurementsReport(windowSize int) {
 	if len(ints) < 1 {
 		log.Fatalf("File doesn't contain any number")
 	}
-	lastMeasurements := 0
+	lastMeasurement := 0
 	increasingCounter := 0
 	decreasingCounter := 0
 	for i := 0; i < len(ints); i++ {
+		//declared a function so we can use defer to update lastMeasurement
 		func() {
 			defer func() {
-				lastMeasurements, _ = getWindowSum(ints, i, windowSize)
+				lastMeasurement, _ = getWindowSum(ints, i, windowSize)
 			}()
 			if i < 1 {
 				return
 			}
 			newInt, err := getWindowSum(ints, i, windowSize)
+			//this happens only when there aren't enough measurements
 			if err != nil {
 				return
 			}
-			if newInt > lastMeasurements {
+			if newInt > lastMeasurement {
 				increasingCounter++
 			} else {
 				decreasingCounter++
@@ -40,6 +42,8 @@ func getMeasurementsReport(windowSize int) {
 	}
 	log.Printf("Increasing %d, Decreasing %d", increasingCounter, decreasingCounter)
 }
+
+// Gets measurement for the selected interval, using the current index and the following # elements (windowSize)
 func getWindowSum(ints []int, counter int, windowSize int) (int, error) {
 	var ret = 0
 	if counter+windowSize > len(ints) {
