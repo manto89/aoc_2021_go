@@ -23,8 +23,18 @@ func readLines() {
 
 	scanner := bufio.NewScanner(f)
 	var lastInt int
-	//the first element will increase the counter but should not be counted
-	increasingCounter := -1
+	for {
+		scanner.Scan()
+		firstString := scanner.Text()
+		if len(firstString) > 0 {
+			lastInt, err = strconv.Atoi(firstString)
+			if err != nil {
+				continue
+			}
+			break
+		}
+	}
+	increasingCounter := 0
 	decreasingCounter := 0
 	for scanner.Scan() {
 		s := scanner.Text()
