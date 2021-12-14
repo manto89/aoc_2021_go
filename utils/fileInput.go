@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func ReadLines(filename string) ([]string, error) {
@@ -47,6 +48,27 @@ func ReadInts(filename string) ([]int, error) {
 			return nil, err
 		}
 		ret = append(ret, i)
+	}
+	return ret, nil
+}
+
+func ReadDirections(filename string) ([]Vector, error) {
+	var ret []Vector
+	lines, err := ReadLines(filename)
+	if err != nil {
+		return nil, err
+	}
+	for _, line := range lines {
+		parts := strings.Split(line, " ")
+		if len(parts) < 2 {
+			continue
+		}
+		vector, err := ParseVector(parts[0], parts[1])
+		if err != nil {
+			return nil, err
+		}
+		ret = append(ret, vector)
+
 	}
 	return ret, nil
 }
