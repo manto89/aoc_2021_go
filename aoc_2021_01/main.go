@@ -1,57 +1,30 @@
 package aoc_2021_01
 
 import (
-	"bufio"
+	"github.com/manto89/aoc_2021_go/utils"
 	"log"
-	"os"
-	"strconv"
 )
 
 var fileName = "./input/01"
 
 func readLines() {
-	f, err := os.OpenFile(fileName, os.O_RDONLY, os.ModePerm)
+	ints, err := utils.ReadInts(fileName)
 	if err != nil {
-		log.Fatalf("File %s doesn't exist", fileName)
+		log.Fatal(err)
 	}
-	defer func(f *os.File) {
-		err := f.Close()
-		if err != nil {
-			log.Fatalf("Unable to close file")
-		}
-	}(f)
-
-	scanner := bufio.NewScanner(f)
-	var lastInt int
-	for {
-		scanner.Scan()
-		firstString := scanner.Text()
-		if len(firstString) > 0 {
-			lastInt, err = strconv.Atoi(firstString)
-			if err != nil {
-				continue
-			}
-			break
-		}
+	if len(ints) < 1 {
+		log.Fatalf("File doesn't contain any number")
 	}
+	lastInt := ints[0]
 	increasingCounter := 0
 	decreasingCounter := 0
-	for scanner.Scan() {
-		s := scanner.Text()
-		if len(s) < 1 {
-			continue
-		}
-		i, err := strconv.Atoi(s)
-		if err != nil {
-			continue
-		}
-		if i > lastInt {
+	for i := 1; i < len(ints); i++ {
+		if ints[i] > lastInt {
 			increasingCounter++
 		} else {
 			decreasingCounter++
 		}
-		lastInt = i
-
+		lastInt = ints[i]
 	}
 	log.Printf("Increasing %d, Decreasing %d", increasingCounter, decreasingCounter)
 }
