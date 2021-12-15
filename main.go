@@ -13,4 +13,5 @@ func main() {
 	ex02.SolvePart2()
 
 	ex03.SolvePart1()
+	ex03.SolvePart2()
 }
