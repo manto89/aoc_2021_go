@@ -9,4 +9,5 @@ func main() {
 	ex01.SolvePart2()
 
 	ex02.SolvePart1()
+	ex02.SolvePart2()
 }
