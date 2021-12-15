@@ -72,3 +72,23 @@ func ReadDirections(filename string) ([]Vector, error) {
 	}
 	return ret, nil
 }
+
+func ReadBinaryNums(filename string) ([][]bool, error) {
+	var ret [][]bool
+	lines, err := ReadLines(filename)
+	if err != nil {
+		return nil, err
+	}
+	for _, line := range lines {
+		var row []bool
+		for _, char := range line {
+			if char == '0' {
+				row = append(row, false)
+			} else if char == '1' {
+				row = append(row, true)
+			}
+		}
+		ret = append(ret, row)
+	}
+	return ret, nil
+}
